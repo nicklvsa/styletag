@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style tagged>
+        .test {
+            text-align: center;
+            --background-color: %testing;
+        }
+
+        #text {
+            --font-size: %font;
+            --color: %textColor;
+        }
+    </style>
+
+    <div class="test">
+        <p id="text">test</p>
+    </div>
+
+    <button onClick="setColor()">test</button>
+</head>
+<body>
+    <script src="styletag.js"></script>
+
+    <script>
+        const data = {
+            store: {
+                font: '24px',
+                testing: 'yellow',
+                textColor: 'black',
+            },
+        };
+
+        useStyleTag(data);
+
+        const setColor = () => {
+            data.store.font = '50px';
+            data.store.testing = 'green';
+            data.store.textColor = 'blue';
+        };
+    </script>
+</body>
+</html>
