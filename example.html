@@ -13,6 +13,7 @@
         #text {
             --font-size: %font;
             --color: %textColor;
+            --content: %contentTest;
         }
     </style>
 
@@ -20,7 +21,9 @@
         <p id="text">test</p>
     </div>
 
-    <input type="text" tagged="textColor"/>
+    <input type="text" tagged="contentTest"/>
+
+    <p tagged-value="contentTest"></p>
 
     <button onClick="setColor()">test</button>
 </head>
@@ -34,6 +37,7 @@
                 font: '24px',
                 testing: 'yellow',
                 textColor: 'black',
+                contentTest: 'hello',
             },
         };
 

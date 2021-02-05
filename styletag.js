@@ -93,6 +93,20 @@ const useStyleTag = (store) => {
                 }
             }
         }
+        updateTaggedValues(store.store);
+    };
+
+    const updateTaggedValues = (inputStore) => {
+        const exacts = document.querySelectorAll(':not(html):not(body):not(head):not(script):not(style)');
+        for (let i = 0; i < exacts.length; i++) {
+            const exact = exacts[i];
+            if (exact.hasAttribute('tagged-value')) {
+                const model = exact.getAttribute('tagged-value');
+                if (inputStore[model]) {
+                    exacts[i].innerHTML = inputStore[model];
+                }
+            }
+        }
     };
 
     fireChanges(store.store);
@@ -105,6 +119,7 @@ const useStyleTag = (store) => {
                 };
                 newStore[obj] = val;
                 fireChanges(newStore);
+                updateTaggedValues(newStore);
             },
         });
     });
