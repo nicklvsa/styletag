@@ -51,11 +51,25 @@ const useStyleTag = (store) => {
         }
     }
 
+    const inputs = document.querySelectorAll('input');
+    for (let i = 0; i < inputs.length; i++) {
+        const input = inputs[i];
+        if (input.hasAttribute(TAGGED_ATTR)) {
+            const model = input.getAttribute('tagged');
+            if (store.store[model]) {
+                input.value = store.store[model];
+                input.onkeyup = (evt) => {
+                    store.store[model] = input.value;
+                };
+            }
+        }
+    }
+
     const fireChanges = (inputStore) => {
         for (const [key, val] of Object.entries(TAGGED)) {
             for (let i = 0; i < document.styleSheets.length; i++) {
                 const sheet = document.styleSheets[i];
-                if (sheet.ownerNode.getAttribute(TAGGED_ATTR) === key) {
+                if (sheet.ownerNode && sheet.ownerNode.getAttribute(TAGGED_ATTR) === key) {
                     for (let j = 0; j < sheet.cssRules.length; j++) {
                         const rule = sheet.cssRules[j];
                         val.forEach(prop => {
@@ -79,6 +93,20 @@ const useStyleTag = (store) => {
                 }
             }
         }
+        updateTaggedValues(store.store);
+    };
+
+    const updateTaggedValues = (inputStore) => {
+        const exacts = document.querySelectorAll(':not(html):not(body):not(head):not(script):not(style)');
+        for (let i = 0; i < exacts.length; i++) {
+            const exact = exacts[i];
+            if (exact.hasAttribute('tagged-value')) {
+                const model = exact.getAttribute('tagged-value');
+                if (inputStore[model]) {
+                    exacts[i].innerHTML = inputStore[model];
+                }
+            }
+        }
     };
 
     fireChanges(store.store);
@@ -91,6 +119,7 @@ const useStyleTag = (store) => {
                 };
                 newStore[obj] = val;
                 fireChanges(newStore);
+                updateTaggedValues(newStore);
             },
         });
     });
