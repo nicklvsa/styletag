@@ -123,4 +123,4 @@ const useStyleTag = (store) => {
             },
         });
     });
-}
+};
